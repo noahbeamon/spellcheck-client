@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Footer from "../Footer";
 import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -63,43 +64,46 @@ function CustomDictionary() {
   };
 
   return (
-    <Container>
-      <h1>Add New Words and Images</h1>
-      <form className={classes.root} onSubmit={handleSubmit}>
-        {inputFields.map((inputField) => (
-          <div key={inputField.id}>
-            <TextField
-              name="word"
-              label="word"
-              variant="filled"
-              length="5"
-              value={inputField.word}
-              onChange={(event) => handleChangeInput(inputField.id, event)}
-            />
-            <input
-              type="file"
-              accept="image/png, image/gif, image/jpeg"
-              value={inputField.file}
-              onChange={(event) => handleChangeInput(inputField.id, event)}
-            />
-            <IconButton
-              disabled={inputFields.length === 1}
-              onClick={() => handleRemoveFields(inputField.id)}
-            >
-              {/* <RemoveIcon /> */}
-              <i class="fa fa-minus"></i>
-            </IconButton>
-            <IconButton onClick={handleAddFields}>
-              {/* <AddIcon /> */}
-              <i class="fa fa-plus"></i>
-            </IconButton>
-          </div>
-        ))}
-        <Button role="button" onClick={handleSubmit}>
-          Send Words
-        </Button>
-      </form>
-    </Container>
+    <div>
+      <Container>
+        <h1>Add New Words and Images</h1>
+        <form className={classes.root} onSubmit={handleSubmit}>
+          {inputFields.map((inputField) => (
+            <div key={inputField.id}>
+              <TextField
+                name="word"
+                label="word"
+                variant="filled"
+                length="5"
+                value={inputField.word}
+                onChange={(event) => handleChangeInput(inputField.id, event)}
+              />
+              <input
+                type="file"
+                accept="image/png, image/gif, image/jpeg"
+                value={inputField.file}
+                onChange={(event) => handleChangeInput(inputField.id, event)}
+              />
+              <IconButton
+                disabled={inputFields.length === 1}
+                onClick={() => handleRemoveFields(inputField.id)}
+              >
+                {/* <RemoveIcon /> */}
+                <i class="fa fa-minus"></i>
+              </IconButton>
+              <IconButton onClick={handleAddFields}>
+                {/* <AddIcon /> */}
+                <i class="fa fa-plus"></i>
+              </IconButton>
+            </div>
+          ))}
+          <Button role="button" onClick={handleSubmit}>
+            Send Words
+          </Button>
+        </form>
+      </Container>
+      <Footer />
+    </div>
   );
 }
 
