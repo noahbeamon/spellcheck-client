@@ -1,0 +1,19 @@
+.custom-dictionary {
+  align-items: center;
+  justify-content: center;
+  margin: 20px;
+}
+
+.button {
+  background-color: #d6d846;
+  width: 5vw;
+  height: 5vw;
+  border: 2px solid #d6d846;
+  border-radius: 0.25vw;
+  padding: 1vw;
+}
+
+p {
+  text-align: center;
+  color: #43a2e4;
+}
