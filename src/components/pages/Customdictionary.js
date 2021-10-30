@@ -57,10 +57,12 @@ function CustomDictionary() {
     );
     setInputFields(values);
 
-    images.splice(
-      values.findIndex((value) => value.id === id),
+    const vals = [...images];
+    vals.splice(
+      vals.findIndex((value) => value.id === id),
       1
     );
+    setImages(vals);
   };
 
   return (
