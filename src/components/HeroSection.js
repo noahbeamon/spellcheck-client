@@ -29,7 +29,7 @@ function HeroSection() {
           buttonSize="btn--large"
           onClick={console.log("hey")}
         >
-          Upload Words <i className="fa fa-upload" />
+          Download Words <i className="fa fa-download" />
         </Button>
       </div>
     </div>

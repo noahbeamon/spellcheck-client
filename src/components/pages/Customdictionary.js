@@ -4,12 +4,12 @@ import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-//import RemoveIcon from "@material-ui/icons/Remove";
-//import AddIcon from "@material-ui/icons/Add";
 import Icon from "@material-ui/core/Icon";
 import { v4 as uuidv4 } from "uuid";
 
 import { makeStyles } from "@material-ui/core/styles";
+
+import Resizer from "react-image-file-resizer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,14 +24,13 @@ const useStyles = makeStyles((theme) => ({
 
 function CustomDictionary() {
   const classes = useStyles();
+  var [images, setImages] = useState([]);
   const [inputFields, setInputFields] = useState([
-    // { id: uuidv4(), firstName: "", lastName: "" },
     { id: uuidv4(), word: "", file: null },
   ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("InputFields", inputFields);
     alert(JSON.stringify(inputFields));
   };
 
@@ -47,11 +46,7 @@ function CustomDictionary() {
   };
 
   const handleAddFields = () => {
-    setInputFields([
-      ...inputFields,
-      //   { id: uuidv4(), firstName: "", lastName: "" },
-      { id: uuidv4(), word: "", file: null },
-    ]);
+    setInputFields([...inputFields, { id: uuidv4(), word: "", file: null }]);
   };
 
   const handleRemoveFields = (id) => {
@@ -61,12 +56,19 @@ function CustomDictionary() {
       1
     );
     setInputFields(values);
+
+    images.splice(
+      values.findIndex((value) => value.id === id),
+      1
+    );
   };
 
   return (
-    <div>
+    <div style={{ marginTop: 20 }}>
       <Container>
-        <h1>Add New Words and Images</h1>
+        <h1 style={{ color: "#7d8782" }}>
+          Add custom words and images with USB <i class="fab fa-usb"></i>
+        </h1>
         <form className={classes.root} onSubmit={handleSubmit}>
           {inputFields.map((inputField) => (
             <div key={inputField.id}>
@@ -74,33 +76,98 @@ function CustomDictionary() {
                 name="word"
                 label="word"
                 variant="filled"
-                length="5"
                 value={inputField.word}
                 onChange={(event) => handleChangeInput(inputField.id, event)}
               />
               <input
+                name="file"
                 type="file"
-                accept="image/png, image/gif, image/jpeg"
+                accept="image/png, image/jpeg"
                 value={inputField.file}
-                onChange={(event) => handleChangeInput(inputField.id, event)}
+                onChange={(event) => {
+                  handleChangeInput(inputField.id, event);
+
+                  var file = event.target.files[0];
+
+                  var fileInput = false;
+                  if (event.target.files[0]) {
+                    fileInput = true;
+                  }
+                  if (fileInput) {
+                    try {
+                      Resizer.imageFileResizer(
+                        event.target.files[0],
+                        320,
+                        240,
+                        "JPEG",
+                        100,
+                        0,
+                        (uri) => {
+                          setImages([
+                            ...images,
+                            { id: inputField.id, file: uri },
+                          ]);
+                        },
+                        "base64",
+                        200,
+                        200
+                      );
+                    } catch (err) {
+                      console.log(err);
+                    }
+                  }
+                  // setImages([
+                  //   ...images,
+                  //   { id: inputField.id, file: binary_of_image },
+                  // ]);
+
+                  // var reader = new FileReader();
+
+                  // reader.onload = function (e) {
+                  //   // The file's text will be printed here
+                  //   //alert(e.target.result);
+                  //   var the_file = resizeImage(e.target.result, 320, 240);
+                  //   setImages([
+                  //     ...images,
+                  //     { id: inputField.id, file: the_file },
+                  //   ]);
+                  //   //alert(JSON.stringify(images));
+                  // };
+
+                  // reader.onload = function (e) {
+                  //   // The file's text will be printed here
+                  //   //alert(e.target.result);
+                  //   setImages([
+                  //     ...images,
+                  //     { id: inputField.id, file: e.target.result },
+                  //   ]);
+                  //   //alert(JSON.stringify(images));
+                  // };
+                  //reader.readAsBinaryString(file);
+                }}
               />
               <IconButton
                 disabled={inputFields.length === 1}
                 onClick={() => handleRemoveFields(inputField.id)}
               >
-                {/* <RemoveIcon /> */}
                 <i class="fa fa-minus"></i>
               </IconButton>
               <IconButton onClick={handleAddFields}>
-                {/* <AddIcon /> */}
                 <i class="fa fa-plus"></i>
               </IconButton>
             </div>
           ))}
-          <Button role="button" onClick={handleSubmit}>
+          <Button
+            style={{ marginBottom: 20 }}
+            role="button"
+            onClick={handleSubmit}
+          >
             Send Words
           </Button>
         </form>
+        <p>Images Added: {images.length}</p>
+        <p>Image Array: {JSON.stringify(images)}</p>
+        <p>Word Array: {JSON.stringify(inputFields)}</p>
       </Container>
       <Footer />
     </div>
