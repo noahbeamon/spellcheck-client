@@ -95,6 +95,16 @@ function CustomDictionary() {
                   if (event.target.files[0]) {
                     fileInput = true;
                   }
+                  //for removing image on same index
+                  var found = false;
+                  for (var i = 0; i < images.length; i++) {
+                    if (images[i].id == inputField.id) {
+                      images.splice(i, 1);
+                      found = true;
+                      break;
+                    }
+                  }
+                  //
                   if (fileInput) {
                     try {
                       Resizer.imageFileResizer(
