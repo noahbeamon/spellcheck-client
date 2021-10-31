@@ -22,6 +22,78 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const notAllowed = [
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
+  "$",
+  "+",
+  "-",
+  "&",
+  "|",
+  " ",
+  "!",
+  "(",
+  ")",
+  "{",
+  "}",
+  "[",
+  "]",
+  "^",
+  "~",
+  "*",
+  "?",
+  ":",
+  "/",
+  ",",
+  "@",
+  "_",
+  "=",
+  "#",
+  ";",
+  '"',
+  "'",
+  "\\",
+  ">",
+  "<",
+  ".",
+  "`",
+  "%",
+];
+
 function CustomDictionary() {
   const classes = useStyles();
   var [images, setImages] = useState([]);
@@ -78,8 +150,19 @@ function CustomDictionary() {
                 name="word"
                 label="word"
                 variant="filled"
+                inputProps={{ maxLength: 5 }}
+                onKeyPress={(e) => {
+                  // if (e.key === " " || e.key === "-" || ) {
+                  //   e.preventDefault();
+                  // }
+                  if (notAllowed.includes(e.key)) {
+                    e.preventDefault();
+                  }
+                }}
                 value={inputField.word}
-                onChange={(event) => handleChangeInput(inputField.id, event)}
+                onChange={(event) => {
+                  handleChangeInput(inputField.id, event);
+                }}
               />
               <input
                 name="file"
@@ -120,9 +203,7 @@ function CustomDictionary() {
                             { id: inputField.id, file: uri },
                           ]);
                         },
-                        "base64",
-                        200,
-                        200
+                        "base64"
                       );
                     } catch (err) {
                       console.log(err);
