@@ -96,14 +96,60 @@ const notAllowed = [
 
 function CustomDictionary() {
   const classes = useStyles();
-  var [images, setImages] = useState([]);
+  const [images, setImages] = useState([]);
   const [inputFields, setInputFields] = useState([
     { id: uuidv4(), word: "", file: null },
   ]);
+  var [result, setResult] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert(JSON.stringify(inputFields));
+    //mergeStructures();
+    //alert(JSON.stringify(inputFields));
+
+    for (var i = 0; i < inputFields.length; i++) {
+      var found = false;
+      for (var j = 0; j < images.length; j++) {
+        if (inputFields[i].id == images[j].id) {
+          found = true;
+        }
+      }
+      if (found == false) {
+        alert(
+          "You did not enter an image for every word. Please review the list and try again."
+        );
+        setResult([]);
+        return;
+      }
+    }
+
+    var temp = result;
+    for (var i = 0; i < images.length; i++) {
+      for (var j = 0; j < inputFields.length; j++) {
+        if (images[i].id == inputFields[j].id) {
+          temp.push({ word: inputFields[j].word, file: images[i].file });
+        }
+      }
+    }
+    setResult(temp);
+
+    var fieldEmpty = false;
+    for (var i = 0; i < result.length; i++) {
+      var fieldEmpty = false;
+      if (result[i].word == "") {
+        fieldEmpty = true;
+      }
+    }
+    if (fieldEmpty) {
+      alert("A field is empty. Please enter a word and try again.");
+      setResult([]);
+      return;
+    }
+
+    if (result != null) {
+      alert("Sending words & images to SpellCheck...");
+      alert(JSON.stringify(result));
+    }
   };
 
   const handleChangeInput = (id, event) => {
@@ -128,13 +174,6 @@ function CustomDictionary() {
       1
     );
     setInputFields(values);
-
-    const vals = [...images];
-    vals.splice(
-      vals.findIndex((value) => value.id === id),
-      1
-    );
-    setImages(vals);
   };
 
   return (
@@ -207,37 +246,9 @@ function CustomDictionary() {
                           "base64"
                         );
                       } catch (err) {
-                        console.log(err);
+                        alert(err);
                       }
                     }
-                    // setImages([
-                    //   ...images,
-                    //   { id: inputField.id, file: binary_of_image },
-                    // ]);
-
-                    // var reader = new FileReader();
-
-                    // reader.onload = function (e) {
-                    //   // The file's text will be printed here
-                    //   //alert(e.target.result);
-                    //   var the_file = resizeImage(e.target.result, 320, 240);
-                    //   setImages([
-                    //     ...images,
-                    //     { id: inputField.id, file: the_file },
-                    //   ]);
-                    //   //alert(JSON.stringify(images));
-                    // };
-
-                    // reader.onload = function (e) {
-                    //   // The file's text will be printed here
-                    //   //alert(e.target.result);
-                    //   setImages([
-                    //     ...images,
-                    //     { id: inputField.id, file: e.target.result },
-                    //   ]);
-                    //   //alert(JSON.stringify(images));
-                    // };
-                    //reader.readAsBinaryString(file);
                   }}
                 />
                 <IconButton
@@ -259,9 +270,15 @@ function CustomDictionary() {
               Send Words
             </Button>
           </form>
-          <p>Images Added: {images.length}</p>
-          <p>Image Array: {JSON.stringify(images)}</p>
-          <p>Word Array: {JSON.stringify(inputFields)}</p>
+          <p style={{ color: "gray" }}>
+            Connect a usb from a port on your computer to the device. Then click
+            SEND WORDS
+          </p>
+          <img
+            style={{ width: 100, height: 50 }}
+            src="https://c.tenor.com/iqcBlRBxaWEAAAAC/usb-flash-drive.gif"
+          ></img>
+          <p>Output: {JSON.stringify(result)}</p>
         </Container>
       </div>
       <Footer />
