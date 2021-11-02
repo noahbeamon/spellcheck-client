@@ -94,6 +94,25 @@ const notAllowed = [
   "%",
 ];
 
+//------------------------------------------------------------------------
+async function talkToMSP(data) {
+  try {
+    let device = await navigator.usb.requestDevice({
+      filters: [{ vendorId: 0x0451 }],
+    });
+    await device.open(); // Begin a session.
+    await device.selectConfiguration(1); // Select configuration #1 for the device.
+    await device.claimInterface(2); // Request exclusive control over interface #2.
+    device.transferOut(0, data);
+    alert("Successfully sent words and images to your SpellCheck device.");
+  } catch (error) {
+    if (error != "NotFoundError: No device selected.") {
+      alert(error);
+    }
+  }
+}
+//------------------------------------------------------------------------
+
 function CustomDictionary() {
   const classes = useStyles();
   const [images, setImages] = useState([]);
@@ -135,7 +154,7 @@ function CustomDictionary() {
 
     var fieldEmpty = false;
     for (var i = 0; i < result.length; i++) {
-      var fieldEmpty = false;
+      //var fieldEmpty = false;
       if (result[i].word == "") {
         fieldEmpty = true;
       }
@@ -147,8 +166,23 @@ function CustomDictionary() {
     }
 
     if (result != null) {
-      alert("Sending words & images to SpellCheck...");
-      alert(JSON.stringify(result));
+      //alert("Sending words & images to SpellCheck...");
+      //alert(JSON.stringify(result));
+      //alert(JSON.stringify(navigator.usb));
+      if (navigator.usb) {
+        for (var i = 0; i < result.length; i++) {
+          //var word = str2ab(result[i].word);
+          var encoder = new TextEncoder(); // always utf-8
+          var word = encoder.encode(result[i].word);
+          talkToMSP(word);
+          var image = Buffer.from(result[i].file, "base64");
+          talkToMSP(image);
+        }
+        //setResult([]);
+      } else {
+        alert("WebUSB not supported.");
+        setResult([]);
+      }
     }
   };
 
