@@ -103,12 +103,11 @@ async function talkToMSP(data) {
     await device.open(); // Begin a session.
     await device.selectConfiguration(1); // Select configuration #1 for the device.
     await device.claimInterface(2); // Request exclusive control over interface #2.
-    device.transferOut(0, data);
+    device.transferOut(2, data);
     alert("Successfully sent words and images to your SpellCheck device.");
+    console.log(data);
   } catch (error) {
-    if (error != "NotFoundError: No device selected.") {
-      alert(error);
-    }
+    alert(error);
   }
 }
 //------------------------------------------------------------------------
@@ -170,15 +169,31 @@ function CustomDictionary() {
       //alert(JSON.stringify(result));
       //alert(JSON.stringify(navigator.usb));
       if (navigator.usb) {
+        var the_data = "";
         for (var i = 0; i < result.length; i++) {
           //var word = str2ab(result[i].word);
-          var encoder = new TextEncoder(); // always utf-8
-          var word = encoder.encode(result[i].word);
-          talkToMSP(word);
-          var image = Buffer.from(result[i].file, "base64");
-          talkToMSP(image);
+          //var encoder = new TextEncoder(); // always utf-8
+          //var word = encoder.encode(result[i].word);
+          //talkToMSP(word);
+          //var image = Buffer.from(result[i].file, "base64");
+          //talkToMSP(image);
+          var word;
+          var image;
+          if (i == result.length - 1) {
+            word = result[i].word + ",";
+            image = result[i].file;
+          } else {
+            word = result[i].word + ",";
+            image = result[i].file + ",";
+          }
+          the_data += word;
+          the_data += image;
         }
-        //setResult([]);
+        console.log(the_data);
+        var encoder = new TextEncoder();
+        var data_tosend = encoder.encode(the_data);
+        talkToMSP(data_tosend);
+        setResult([]);
       } else {
         alert("WebUSB not supported.");
         setResult([]);
@@ -312,7 +327,6 @@ function CustomDictionary() {
             style={{ width: 100, height: 50 }}
             src="https://c.tenor.com/iqcBlRBxaWEAAAAC/usb-flash-drive.gif"
           ></img>
-          <p>Output: {JSON.stringify(result)}</p>
         </Container>
       </div>
       <Footer />
