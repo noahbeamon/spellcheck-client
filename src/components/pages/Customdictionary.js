@@ -197,7 +197,7 @@ function CustomDictionary() {
           reader.cancel();
           console.log("ACK Received");
           alert(
-            "Successfully sent words to your SpellCheck device. Please disconnect the device."
+            "Successfully sent words and images to your SpellCheck device. Please disconnect the device."
           );
           break;
         }
@@ -338,15 +338,6 @@ function CustomDictionary() {
           <h1 style={{ color: "#7d8782" }}>
             Add custom words and images with USB <i class="fab fa-usb"></i>
           </h1>
-          {loading && (
-            <div>
-              <img
-                //style={{ width: 100, height: 50 }}
-                src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"
-              ></img>
-              <h2 style={{ color: "gray" }}>Downloading Words...</h2>
-            </div>
-          )}
           <form className={classes.root} onSubmit={handleSubmit}>
             {inputFields.map((inputField) => (
               <div key={inputField.id}>
@@ -434,12 +425,21 @@ function CustomDictionary() {
               Send Words
             </Button>
           </form>
+          {loading && (
+            <div style={{ marginBottom: 10, marginTop: 10 }}>
+              <img
+                //style={{ width: 100, height: 50 }}
+                src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"
+              ></img>
+              <h2 style={{ color: "gray" }}>Downloading words and images</h2>
+            </div>
+          )}
           <p style={{ color: "gray" }}>
             Connect a usb from a port on your computer to the device. Then click
             SEND WORDS
           </p>
           <img
-            style={{ width: 100, height: 50 }}
+            style={{ width: 100, height: 50, marginBottom: 10 }}
             src="https://c.tenor.com/iqcBlRBxaWEAAAAC/usb-flash-drive.gif"
           ></img>
         </Container>
