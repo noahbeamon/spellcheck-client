@@ -94,25 +94,131 @@ const notAllowed = [
   "%",
 ];
 
-//------------------------------------------------------------------------
-async function talkToMSP(data) {
-  try {
-    let device = await navigator.usb.requestDevice({
-      filters: [{ vendorId: 0x0451 }],
-    });
-    await device.open(); // Begin a session.
-    await device.selectConfiguration(1); // Select configuration #1 for the device.
-    await device.claimInterface(2); // Request exclusive control over interface #2.
-    device.transferOut(2, data);
-    alert("Successfully sent words and images to your SpellCheck device.");
-    console.log(data);
-  } catch (error) {
-    alert(error);
-  }
-}
-//------------------------------------------------------------------------
+// //------------------------------------------------------------------------
+// async function talkToMSP(data) {
+//   setLoading(true);
+//   var verification_str = "";
+//   if ("serial" in navigator) {
+//     // The Web Serial API is supported.
+//     //Write
+//     const filters = [{ usbVendorId: 0x0451, usbProductId: 0xbef3 }];
+//     const port = await navigator.serial.requestPort({ filters });
+//     const { usbProductId, usbVendorId } = port.getInfo();
+//     await port.open({ baudRate: 9600 });
+//     const textEncoder = new TextEncoderStream();
+//     const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+
+//     const writer = textEncoder.writable.getWriter();
+
+//     await writer.write(data);
+
+//     //read echo
+//     const textDecoder = new TextDecoderStream();
+//     const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+//     const reader = textDecoder.readable.getReader();
+
+//     // Listen to data coming from the serial device.
+//     while (verification_str != data) {
+//       const { value, done } = await reader.read();
+//       if (done) {
+//         // Allow the serial port to be closed later.
+//         reader.releaseLock();
+//         break;
+//       }
+//       // value is a string.
+//       console.log(value);
+//       verification_str += value;
+//       if (verification_str === data) {
+//         writer.close();
+//         await writableStreamClosed;
+//         reader.cancel();
+//         console.log("ACK Received");
+//         alert(
+//           "Successfully sent words to your SpellCheck device. Please disconnect the device."
+//         );
+//         break;
+//       }
+//     }
+//     //reader.cancel();
+//     await readableStreamClosed.catch(() => {
+//       /* Ignore the error */
+//     });
+//     // writer.close();
+//     // await writableStreamClosed;
+//     //port.close();
+
+//     await port.close();
+//   } else {
+//     alert(
+//       "This feature is not supported in this browser. Please use Google Chrome."
+//     );
+//   }
+// }
+// //------------------------------------------------------------------------
 
 function CustomDictionary() {
+  const [loading, setLoading] = useState(false);
+  //------------------------------------------------------------------------
+  async function talkToMSP(data) {
+    var verification_str = "";
+    if ("serial" in navigator) {
+      // The Web Serial API is supported.
+      //Write
+      const filters = [{ usbVendorId: 0x0451, usbProductId: 0xbef3 }];
+      const port = await navigator.serial.requestPort({ filters });
+      const { usbProductId, usbVendorId } = port.getInfo();
+      await port.open({ baudRate: 9600 });
+      const textEncoder = new TextEncoderStream();
+      const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+
+      const writer = textEncoder.writable.getWriter();
+      setLoading(true);
+      await writer.write(data);
+
+      //read echo
+      const textDecoder = new TextDecoderStream();
+      const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+      const reader = textDecoder.readable.getReader();
+
+      // Listen to data coming from the serial device.
+      while (verification_str != data) {
+        const { value, done } = await reader.read();
+        if (done) {
+          // Allow the serial port to be closed later.
+          reader.releaseLock();
+          break;
+        }
+        // value is a string.
+        console.log(value);
+        verification_str += value;
+        if (verification_str === data) {
+          writer.close();
+          await writableStreamClosed;
+          reader.cancel();
+          console.log("ACK Received");
+          alert(
+            "Successfully sent words to your SpellCheck device. Please disconnect the device."
+          );
+          break;
+        }
+      }
+      //reader.cancel();
+      await readableStreamClosed.catch(() => {
+        /* Ignore the error */
+      });
+      // writer.close();
+      // await writableStreamClosed;
+      //port.close();
+
+      await port.close();
+      setLoading(false);
+    } else {
+      alert(
+        "This feature is not supported in this browser. Please use Google Chrome."
+      );
+    }
+  }
+  //------------------------------------------------------------------------
   const classes = useStyles();
   const [images, setImages] = useState([]);
   const [inputFields, setInputFields] = useState([
@@ -169,7 +275,7 @@ function CustomDictionary() {
       //alert(JSON.stringify(result));
       //alert(JSON.stringify(navigator.usb));
       if (navigator.usb) {
-        var the_data = "";
+        var data = "";
         for (var i = 0; i < result.length; i++) {
           //var word = str2ab(result[i].word);
           //var encoder = new TextEncoder(); // always utf-8
@@ -186,16 +292,16 @@ function CustomDictionary() {
             word = result[i].word + ",";
             image = result[i].file + ",";
           }
-          the_data += word;
-          the_data += image;
+          data += word;
+          data += image;
         }
-        console.log(the_data);
-        var encoder = new TextEncoder();
-        var data_tosend = encoder.encode(the_data);
-        talkToMSP(data_tosend);
+        //console.log(data);
+        // var encoder = new TextEncoder();
+        // var data_tosend = encoder.encode(data);
+        talkToMSP(data);
         setResult([]);
       } else {
-        alert("WebUSB not supported.");
+        alert("This feature is not supported.");
         setResult([]);
       }
     }
@@ -232,6 +338,15 @@ function CustomDictionary() {
           <h1 style={{ color: "#7d8782" }}>
             Add custom words and images with USB <i class="fab fa-usb"></i>
           </h1>
+          {loading && (
+            <div>
+              <img
+                //style={{ width: 100, height: 50 }}
+                src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"
+              ></img>
+              <h2 style={{ color: "gray" }}>Downloading Words...</h2>
+            </div>
+          )}
           <form className={classes.root} onSubmit={handleSubmit}>
             {inputFields.map((inputField) => (
               <div key={inputField.id}>
