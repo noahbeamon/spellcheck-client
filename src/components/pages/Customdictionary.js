@@ -94,68 +94,6 @@ const notAllowed = [
   "%",
 ];
 
-// //------------------------------------------------------------------------
-// async function talkToMSP(data) {
-//   setLoading(true);
-//   var verification_str = "";
-//   if ("serial" in navigator) {
-//     // The Web Serial API is supported.
-//     //Write
-//     const filters = [{ usbVendorId: 0x0451, usbProductId: 0xbef3 }];
-//     const port = await navigator.serial.requestPort({ filters });
-//     const { usbProductId, usbVendorId } = port.getInfo();
-//     await port.open({ baudRate: 9600 });
-//     const textEncoder = new TextEncoderStream();
-//     const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
-
-//     const writer = textEncoder.writable.getWriter();
-
-//     await writer.write(data);
-
-//     //read echo
-//     const textDecoder = new TextDecoderStream();
-//     const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
-//     const reader = textDecoder.readable.getReader();
-
-//     // Listen to data coming from the serial device.
-//     while (verification_str != data) {
-//       const { value, done } = await reader.read();
-//       if (done) {
-//         // Allow the serial port to be closed later.
-//         reader.releaseLock();
-//         break;
-//       }
-//       // value is a string.
-//       console.log(value);
-//       verification_str += value;
-//       if (verification_str === data) {
-//         writer.close();
-//         await writableStreamClosed;
-//         reader.cancel();
-//         console.log("ACK Received");
-//         alert(
-//           "Successfully sent words to your SpellCheck device. Please disconnect the device."
-//         );
-//         break;
-//       }
-//     }
-//     //reader.cancel();
-//     await readableStreamClosed.catch(() => {
-//       /* Ignore the error */
-//     });
-//     // writer.close();
-//     // await writableStreamClosed;
-//     //port.close();
-
-//     await port.close();
-//   } else {
-//     alert(
-//       "This feature is not supported in this browser. Please use Google Chrome."
-//     );
-//   }
-// }
-// //------------------------------------------------------------------------
-
 function CustomDictionary() {
   const [loading, setLoading] = useState(false);
   //------------------------------------------------------------------------
@@ -189,12 +127,13 @@ function CustomDictionary() {
           break;
         }
         // value is a string.
-        console.log(value);
+        //console.log(value);
         verification_str += value;
         if (verification_str === data) {
           writer.close();
           await writableStreamClosed;
           reader.cancel();
+          console.log("data received from echo: " + verification_str);
           console.log("ACK Received");
           alert(
             "Successfully sent words and images to your SpellCheck device. Please disconnect the device."
@@ -251,7 +190,11 @@ function CustomDictionary() {
     for (var i = 0; i < images.length; i++) {
       for (var j = 0; j < inputFields.length; j++) {
         if (images[i].id == inputFields[j].id) {
-          temp.push({ word: inputFields[j].word, file: images[i].file });
+          temp.push({
+            word: inputFields[j].word,
+            file: images[i].file,
+            //file: JSON.stringify(images[i].file),
+          });
         }
       }
     }
@@ -271,33 +214,21 @@ function CustomDictionary() {
     }
 
     if (result != null) {
-      //alert("Sending words & images to SpellCheck...");
-      //alert(JSON.stringify(result));
-      //alert(JSON.stringify(navigator.usb));
       if (navigator.usb) {
         var data = "";
         for (var i = 0; i < result.length; i++) {
-          //var word = str2ab(result[i].word);
-          //var encoder = new TextEncoder(); // always utf-8
-          //var word = encoder.encode(result[i].word);
-          //talkToMSP(word);
-          //var image = Buffer.from(result[i].file, "base64");
-          //talkToMSP(image);
           var word;
           var image;
           if (i == result.length - 1) {
-            word = result[i].word + ",";
+            word = result[i].word + "|";
             image = result[i].file;
           } else {
-            word = result[i].word + ",";
-            image = result[i].file + ",";
+            word = result[i].word + "|";
+            image = result[i].file + "|";
           }
           data += word;
           data += image;
         }
-        //console.log(data);
-        // var encoder = new TextEncoder();
-        // var data_tosend = encoder.encode(data);
         talkToMSP(data);
         setResult([]);
       } else {
@@ -393,12 +324,25 @@ function CustomDictionary() {
                           100,
                           0,
                           (uri) => {
-                            setImages([
-                              ...images,
-                              { id: inputField.id, file: uri },
-                            ]);
+                            var fr = new FileReader();
+                            fr.addEventListener("load", function () {
+                              var u = new Uint8Array(this.result),
+                                a = new Array(u.length),
+                                i = u.length;
+                              while (i--)
+                                // map to hex
+                                a[i] =
+                                  (u[i] < 16 ? "0" : "") + u[i].toString(16);
+                              u = null; // free memory
+                              //console.log(a); // work with this
+                              setImages([
+                                ...images,
+                                { id: inputField.id, file: a },
+                              ]);
+                            });
+                            fr.readAsArrayBuffer(uri);
                           },
-                          "base64"
+                          "file"
                         );
                       } catch (err) {
                         alert(err);
