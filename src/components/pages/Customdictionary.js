@@ -361,21 +361,27 @@ function CustomDictionary() {
                 </IconButton>
               </div>
             ))}
-            <Button
-              style={{ marginBottom: 20 }}
-              role="button"
-              onClick={handleSubmit}
-            >
-              Send Words
-            </Button>
+            {!loading && (
+              <Button
+                style={{ marginBottom: 20 }}
+                role="button"
+                onClick={handleSubmit}
+              >
+                Send Words
+              </Button>
+            )}
           </form>
           {loading && (
-            <div style={{ marginBottom: 10, marginTop: 10 }}>
+            <div
+              style={{
+                marginBottom: 10,
+                marginTop: 10,
+              }}
+            >
               <img
-                //style={{ width: 100, height: 50 }}
+                style={{ width: "40px", height: "40px" }}
                 src="https://c.tenor.com/I6kN-6X7nhAAAAAj/loading-buffering.gif"
               ></img>
-              <h2 style={{ color: "gray" }}>Downloading words and images</h2>
             </div>
           )}
           <p style={{ color: "gray" }}>
