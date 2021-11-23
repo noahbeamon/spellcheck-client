@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "./Button";
+import { AuxButton } from "./AuxButton";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
 
@@ -60,7 +61,7 @@ function Navbar() {
               </Link>
             </li>
 
-            <li>
+            {/* <li>
               <Link
                 to="/login"
                 className="nav-links-mobile"
@@ -68,9 +69,9 @@ function Navbar() {
               >
                 About Us
               </Link>
-            </li>
+            </li> */}
           </ul>
-          {button && <Button buttonStyle="btn--outline">About Us</Button>}
+          {button && <AuxButton buttonStyle="btn--outline">About Us</AuxButton>}
         </div>
       </nav>
     </>

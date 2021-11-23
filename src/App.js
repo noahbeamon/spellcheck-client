@@ -8,6 +8,7 @@ import TechnicalSupport from "./components/pages/Technicalsupport";
 import Login from "./components/pages/Login";
 import CustomDictionary from "./components/pages/Customdictionary";
 import DefaultDictionary from "./components/pages/Defaultdictionary";
+import AboutUs from "./components/pages/Aboutus";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/" exact component={Home} />
           <Route path="/services" component={Services} />
           <Route path="/technicalsupport" component={TechnicalSupport} />
+          <Route path="/aboutus" component={AboutUs} />
           <Route path="/customdictionary" component={CustomDictionary} />
           <Route path="/defaultdictionary" component={DefaultDictionary} />
         </Switch>
