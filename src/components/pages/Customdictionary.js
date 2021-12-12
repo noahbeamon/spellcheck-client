@@ -98,6 +98,9 @@ function CustomDictionary() {
   const [loading, setLoading] = useState(false);
   //------------------------------------------------------------------------
   async function talkToMSP(data) {
+    //
+    var numItems = data.split("%").length - 1;
+    //
     var verification_str = "";
     if ("serial" in navigator) {
       // The Web Serial API is supported.
@@ -119,7 +122,7 @@ function CustomDictionary() {
       const reader = textDecoder.readable.getReader();
 
       // Listen to data coming from the serial device.
-      while (verification_str != data) {
+      while (verification_str != "k".repeat(numItems)) {
         const { value, done } = await reader.read();
         if (done) {
           // Allow the serial port to be closed later.
@@ -129,7 +132,7 @@ function CustomDictionary() {
         // value is a string.
         //console.log(value);
         verification_str += value;
-        if (verification_str === data) {
+        if (verification_str === "k".repeat(numItems)) {
           writer.close();
           await writableStreamClosed;
           reader.cancel();
@@ -141,6 +144,30 @@ function CustomDictionary() {
           break;
         }
       }
+      //
+      // while (verification_str != data) {
+      //   const { value, done } = await reader.read();
+      //   if (done) {
+      //     // Allow the serial port to be closed later.
+      //     reader.releaseLock();
+      //     break;
+      //   }
+      //   // value is a string.
+      //   //console.log(value);
+      //   verification_str += value;
+      //   if (verification_str === data) {
+      //     writer.close();
+      //     await writableStreamClosed;
+      //     reader.cancel();
+      //     console.log("data received from echo: " + verification_str);
+      //     console.log("ACK Received");
+      //     alert(
+      //       "Successfully sent words and images to your SpellCheck device. Please disconnect the device."
+      //     );
+      //     break;
+      //   }
+      // }
+      //
       //reader.cancel();
       await readableStreamClosed.catch(() => {
         /* Ignore the error */
@@ -193,6 +220,10 @@ function CustomDictionary() {
           temp.push({
             word: inputFields[j].word,
             file: images[i].file,
+            type: images[i].type,
+            size: images[i].size,
+            width: images[i].width,
+            height: images[i].height,
             //file: JSON.stringify(images[i].file),
           });
         }
@@ -219,17 +250,42 @@ function CustomDictionary() {
         for (var i = 0; i < result.length; i++) {
           var word;
           var image;
+          var type;
+          var size;
+          var width;
+          var height;
           if (i == result.length - 1) {
-            word = result[i].word + "|";
-            image = result[i].file;
+            word = result[i].word + "/";
+            // image = result[i].file;
+            //
+            image = result[i].file + "$";
+            type = result[i].type + "*";
+            size = result[i].size + "#";
+            width = result[i].width + "!";
+            height = result[i].height;
+            //
           } else {
-            word = result[i].word + "|";
-            image = result[i].file + "|";
+            word = result[i].word + "/";
+            //image = result[i].file + "|";
+            //
+            image = result[i].file + "$";
+            type = result[i].type + "*";
+            size = result[i].size + "#";
+            width = result[i].width + "!";
+            height = result[i].height + "%" + "+".repeat(2000) + "|";
+            //
           }
           data += word;
           data += image;
+          data += type;
+          data += size;
+          data += width;
+          data += height;
         }
-        talkToMSP(data);
+        //
+        //alert(data.length + 1);
+        //
+        talkToMSP("|" + data + "%");
         setResult([]);
       } else {
         alert("This feature is not supported.");
@@ -298,7 +354,14 @@ function CustomDictionary() {
                   onChange={(event) => {
                     handleChangeInput(inputField.id, event);
 
-                    var file = event.target.files[0];
+                    //--------PROTOTYPE BACKUP---------
+                    // var file = event.target.files[0];
+                    // alert(JSON.stringify(file.size));
+                    // if (file.size < 8000) {
+                    //   alert("setting image");
+                    //   setImages([...images, { id: inputField.id, file: file }]);
+                    // }
+                    //----------------------------------
 
                     var fileInput = false;
                     if (event.target.files[0]) {
@@ -318,10 +381,10 @@ function CustomDictionary() {
                       try {
                         Resizer.imageFileResizer(
                           event.target.files[0],
-                          320,
+                          240,
                           240,
                           "JPEG",
-                          100,
+                          5,
                           0,
                           (uri) => {
                             var fr = new FileReader();
@@ -329,20 +392,35 @@ function CustomDictionary() {
                               var u = new Uint8Array(this.result),
                                 a = new Array(u.length),
                                 i = u.length;
-                              while (i--)
-                                // map to hex
-                                a[i] =
-                                  (u[i] < 16 ? "0" : "") + u[i].toString(16);
-                              u = null; // free memory
+                              // while (i--)
+                              //   // map to hex
+                              //   a[i] =
+                              //     //"0x" +
+                              //     (u[i] < 16 ? "0" : "") + u[i].toString(16);
+                              // u = null; // free memory
                               //console.log(a); // work with this
+                              //alert("array length: " + a.length);
                               setImages([
                                 ...images,
-                                { id: inputField.id, file: a },
+                                // { id: inputField.id, file: a },
+                                {
+                                  id: inputField.id,
+                                  file: u,
+                                  type: "jpeg",
+                                  size: u.length,
+                                  width: 240,
+                                  height: 240,
+                                },
                               ]);
                             });
                             fr.readAsArrayBuffer(uri);
+                            //-------------------
+                            //alert("file size: " + JSON.stringify(uri.size));
+                            //-------------------
                           },
-                          "file"
+                          "file",
+                          240,
+                          240
                         );
                       } catch (err) {
                         alert(err);
