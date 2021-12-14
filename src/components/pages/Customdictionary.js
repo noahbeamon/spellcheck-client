@@ -272,7 +272,7 @@ function CustomDictionary() {
             type = result[i].type + "*";
             size = result[i].size + "#";
             width = result[i].width + "!";
-            height = result[i].height + "%" + "+".repeat(2000) + "|";
+            height = result[i].height + "%" + "+".repeat(10000) + "|";
             //
           }
           data += word;
@@ -285,7 +285,7 @@ function CustomDictionary() {
         //
         //alert(data.length + 1);
         //
-        talkToMSP("|" + data + "%");
+        talkToMSP("+".repeat(10000) + "|" + data + "%");
         setResult([]);
       } else {
         alert("This feature is not supported.");
