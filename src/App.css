@@ -42,3 +42,33 @@
   color: #fff;
   font-size: 100px;
 }
+
+#techsup-wrapper,
+#aboutus-wrapper {
+  max-width: 980px;
+  margin: auto;
+  padding: 50px 25px;
+}
+
+#aboutus-wrapper img {
+  width: 100%;
+  height: auto;
+}
+
+#aboutus-wrapper h1,
+#techsup-wrapper h1 {
+  font-size: 50px;
+}
+
+#aboutus-wrapper p.desc,
+#techsup-wrapper p.desc,
+#techsup-wrapper ol.desc-list {
+  font-size: 25px;
+}
+
+#aboutus-wrapper p span {
+  background-color: goldenrod;
+  color: white;
+  padding: 5px;
+  line-height: 200%;
+}

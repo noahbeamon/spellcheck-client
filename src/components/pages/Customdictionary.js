@@ -130,9 +130,9 @@ function CustomDictionary() {
           break;
         }
         // value is a string.
-        //console.log(value);
+        console.log(value);
         verification_str += value;
-        if (verification_str === "k".repeat(numItems)) {
+        if (verification_str != "") {
           writer.close();
           await writableStreamClosed;
           reader.cancel();
@@ -285,7 +285,9 @@ function CustomDictionary() {
         //
         //alert(data.length + 1);
         //
-        talkToMSP("+".repeat(10000) + "|" + data + "%");
+        talkToMSP(
+          "+".repeat(10000) + "|" + data + "%" + "+".repeat(10000) + "."
+        );
         setResult([]);
       } else {
         alert("This feature is not supported.");
