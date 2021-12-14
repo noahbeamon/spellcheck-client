@@ -383,8 +383,8 @@ function CustomDictionary() {
                       try {
                         Resizer.imageFileResizer(
                           event.target.files[0],
-                          240,
-                          240,
+                          175,
+                          175,
                           "JPEG",
                           5,
                           0,
@@ -400,7 +400,7 @@ function CustomDictionary() {
                               //     //"0x" +
                               //     (u[i] < 16 ? "0" : "") + u[i].toString(16);
                               // u = null; // free memory
-                              //console.log(a); // work with this
+                              // console.log(a); // work with this
                               //alert("array length: " + a.length);
                               setImages([
                                 ...images,
@@ -410,8 +410,8 @@ function CustomDictionary() {
                                   file: u,
                                   type: "jpeg",
                                   size: u.length,
-                                  width: 240,
-                                  height: 240,
+                                  width: 175,
+                                  height: 175,
                                 },
                               ]);
                             });
@@ -421,8 +421,8 @@ function CustomDictionary() {
                             //-------------------
                           },
                           "file",
-                          240,
-                          240
+                          175,
+                          175
                         );
                       } catch (err) {
                         alert(err);
