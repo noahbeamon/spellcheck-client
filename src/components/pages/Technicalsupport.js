@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../../App.css";
 import Footer from "../Footer";
 import Faq from "react-faq-component";
+import Pdf from "./SpellCheck User Guide_BananaSeals.pdf";
 
 const data = {
   title: "Tech Support",
@@ -72,37 +73,13 @@ const config = {
 
 export default function TechnicalSupport() {
   return (
-    // <>
-    //   <div id="techsup-wrapper">
-    //     <h1>Technical support</h1>
-    //     <br />
-    //     <p>In case if you face errors, try one of the steps below.</p>
-    //     <ol>
-    //       <li>
-    //         If your file was not uploaded, try a different file with less size.
-    //       </li>
-    //       <li>
-    //         If your file was not uploaded, try a different COM port version
-    //         until you find a working one.
-    //       </li>
-    //     </ol>
-    //   </div>
-    //   <Footer />
-    // </>
-    //<>
-
-    // <div className="techsup-wrapper">
-    //   <img
-    //     src="https://i.imgur.com/DF7h3g6.png"
-    //     style={{ width: 300, height: 300 }}
-    //   />
-    //   <Footer />
-    // </div>
-
-    //</>
     <div>
       <div style={{ margin: 20 }}>
         <Faq data={data} styles={styles} config={config} />
+        <h3 style={{ color: "gray" }}>User Manual</h3>
+        <a href={Pdf} target="_blank">
+          Download User Manual
+        </a>
       </div>
       <Footer />
     </div>

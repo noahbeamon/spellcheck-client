@@ -119,9 +119,6 @@ function CustomDictionary() {
   const [loading, setLoading] = useState(false);
   //------------------------------------------------------------------------
   async function talkToMSP(data) {
-    //
-    var numItems = data.split("%").length - 1;
-    //
     var verification_str = "";
     if ("serial" in navigator) {
       // The Web Serial API is supported.
@@ -143,7 +140,7 @@ function CustomDictionary() {
       const reader = textDecoder.readable.getReader();
 
       // Listen to data coming from the serial device.
-      while (verification_str != "k".repeat(numItems)) {
+      while (verification_str != "") {
         const { value, done } = await reader.read();
         if (done) {
           // Allow the serial port to be closed later.
