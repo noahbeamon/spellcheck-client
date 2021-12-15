@@ -276,7 +276,7 @@ function CustomDictionary() {
           var width;
           var height;
           if (i == result.length - 1) {
-            word = result[i].word + "/";
+            word = result[i].word + "/" + "+".repeat(5000);
             // image = result[i].file;
             //
             image = result[i].file + "$" + "+".repeat(5000);
@@ -286,7 +286,7 @@ function CustomDictionary() {
             height = result[i].height;
             //
           } else {
-            word = result[i].word + "/";
+            word = result[i].word + "/" + "+".repeat(5000);
             //image = result[i].file + "|";
             //
             image = result[i].file + "$" + "+".repeat(5000);
