@@ -276,31 +276,31 @@ function CustomDictionary() {
           var width;
           var height;
           if (i == result.length - 1) {
-            word = result[i].word + "/" + "+".repeat(5000);
+            word = result[i].word + "/";
             // image = result[i].file;
             //
-            image = result[i].file + "$" + "+".repeat(5000);
-            type = result[i].type + "*" + "+".repeat(5000);
-            size = result[i].size + "#" + "+".repeat(5000);
-            width = result[i].width + "!" + "+".repeat(5000);
+            image = result[i].file + "$";
+            type = result[i].type + "*";
+            size = result[i].size + "#";
+            width = result[i].width + "!";
             height = result[i].height;
             //
           } else {
-            word = result[i].word + "/" + "+".repeat(5000);
+            word = result[i].word + "/";
             //image = result[i].file + "|";
             //
-            image = result[i].file + "$" + "+".repeat(5000);
-            type = result[i].type + "*" + "+".repeat(5000);
-            size = result[i].size + "#" + "+".repeat(5000);
-            width = result[i].width + "!" + "+".repeat(5000);
-            height = result[i].height + "%" + "+".repeat(5000) + "|";
+            image = result[i].file + "$";
+            type = result[i].type + "*";
+            size = result[i].size + "#" + "+".repeat(10000);
+            width = result[i].width + "!" + "+".repeat(10000);
+            height = result[i].height + "%" + "+".repeat(10000) + "|";
             //
           }
           data += word;
           data += image;
           data += type;
-          data += size + "+".repeat(5000);
-          data += width + "+".repeat(5000);
+          data += size + "+".repeat(10000);
+          data += width + "+".repeat(10000);
           data += height;
         }
         //
@@ -308,12 +308,12 @@ function CustomDictionary() {
         console.log(data);
         //
         talkToMSP(
-          "+".repeat(5000) +
+          "+".repeat(10000) +
             "|" +
             data +
             "%" +
-            "+".repeat(5000) +
-            ".".repeat(10)
+            "+".repeat(10000) +
+            ".".repeat(10000)
         );
         setResult([]);
       } else {
