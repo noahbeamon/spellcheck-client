@@ -308,7 +308,12 @@ function CustomDictionary() {
         console.log(data);
         //
         talkToMSP(
-          "+".repeat(10000) + "|" + data + "%" + "+".repeat(10000) + "."
+          "+".repeat(10000) +
+            "|" +
+            data +
+            "%" +
+            "+".repeat(10000) +
+            ".".repeat(10000)
         );
         setResult([]);
       } else {
