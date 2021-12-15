@@ -291,16 +291,16 @@ function CustomDictionary() {
             //
             image = result[i].file + "$";
             type = result[i].type + "*";
-            size = result[i].size + "#" + "+".repeat(10000);
-            width = result[i].width + "!" + "+".repeat(10000);
+            size = result[i].size + "#";
+            width = result[i].width + "!";
             height = result[i].height + "%" + "+".repeat(10000) + "|";
             //
           }
           data += word;
           data += image;
           data += type;
-          data += size + "+".repeat(10000);
-          data += width + "+".repeat(10000);
+          data += size + "+".repeat(1000);
+          data += width + "+".repeat(1000);
           data += height;
         }
         //
@@ -313,7 +313,7 @@ function CustomDictionary() {
             data +
             "%" +
             "+".repeat(10000) +
-            ".".repeat(10000)
+            ".".repeat(10)
         );
         setResult([]);
       } else {
