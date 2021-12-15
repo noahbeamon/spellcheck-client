@@ -11,6 +11,27 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import Resizer from "react-image-file-resizer";
 
+var isArrayBufferSupported = new Buffer(new Uint8Array([1]).buffer)[0] === 1;
+
+var arrayBufferToBuffer = isArrayBufferSupported
+  ? arrayBufferToBufferAsArgument
+  : arrayBufferToBufferCycle;
+
+function arrayBufferToBufferAsArgument(ab) {
+  return new Buffer(ab);
+}
+
+function arrayBufferToBufferCycle(ab) {
+  var buffer = new Buffer(ab.byteLength);
+  var view = new Uint8Array(ab);
+  for (var i = 0; i < buffer.length; ++i) {
+    buffer[i] = view[i];
+  }
+  return buffer;
+}
+
+const sizeOf = require("image-size");
+
 const useStyles = makeStyles((theme) => ({
   root: {
     "& .MuiTextField-root": {
@@ -284,6 +305,7 @@ function CustomDictionary() {
         }
         //
         //alert(data.length + 1);
+        console.log(data);
         //
         talkToMSP(
           "+".repeat(10000) + "|" + data + "%" + "+".repeat(10000) + "."
@@ -394,6 +416,14 @@ function CustomDictionary() {
                               var u = new Uint8Array(this.result),
                                 a = new Array(u.length),
                                 i = u.length;
+
+                              const dimensions = sizeOf(
+                                arrayBufferToBuffer(this.result)
+                              );
+                              console.log(dimensions.width, dimensions.height);
+                              var w = dimensions.width;
+                              var h = dimensions.height;
+
                               // while (i--)
                               //   // map to hex
                               //   a[i] =
@@ -410,8 +440,8 @@ function CustomDictionary() {
                                   file: u,
                                   type: "jpeg",
                                   size: u.length,
-                                  width: 175,
-                                  height: 175,
+                                  width: w,
+                                  height: h,
                                 },
                               ]);
                             });
