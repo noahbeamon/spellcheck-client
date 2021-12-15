@@ -291,16 +291,16 @@ function CustomDictionary() {
             //
             image = result[i].file + "$";
             type = result[i].type + "*";
-            size = result[i].size + "#";
-            width = result[i].width + "!";
+            size = result[i].size + "#" + "+".repeat(10000);
+            width = result[i].width + "!" + "+".repeat(10000);
             height = result[i].height + "%" + "+".repeat(10000) + "|";
             //
           }
           data += word;
           data += image;
           data += type;
-          data += size;
-          data += width;
+          data += size + "+".repeat(10000);
+          data += width + "+".repeat(10000);
           data += height;
         }
         //
@@ -424,12 +424,12 @@ function CustomDictionary() {
                               var w = dimensions.width;
                               var h = dimensions.height;
 
-                              // while (i--)
-                              //   // map to hex
-                              //   a[i] =
-                              //     //"0x" +
-                              //     (u[i] < 16 ? "0" : "") + u[i].toString(16);
-                              // u = null; // free memory
+                              while (i--)
+                                // map to hex
+                                a[i] =
+                                  //"0x" +
+                                  (u[i] < 16 ? "0" : "") + u[i].toString(16);
+                              u = null; // free memory
                               // console.log(a); // work with this
                               //alert("array length: " + a.length);
                               setImages([
@@ -437,9 +437,9 @@ function CustomDictionary() {
                                 // { id: inputField.id, file: a },
                                 {
                                   id: inputField.id,
-                                  file: u,
+                                  file: a,
                                   type: "jpeg",
-                                  size: u.length,
+                                  size: a.length,
                                   width: w,
                                   height: h,
                                 },
