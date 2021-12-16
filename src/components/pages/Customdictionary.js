@@ -273,30 +273,30 @@ function CustomDictionary() {
           var width;
           var height;
           if (i == result.length - 1) {
-            word = result[i].word + "+".repeat(1000) + "/" + "+".repeat(1000);
+            word = result[i].word + "+".repeat(2000) + "/" + "+".repeat(2000);
             // image = result[i].file;
             //
-            image = result[i].file + "+".repeat(1000) + "$" + "+".repeat(1000);
-            type = result[i].type + "+".repeat(1000) + "*" + "+".repeat(1000);
-            size = result[i].size + "+".repeat(1000) + "#" + "+".repeat(1000);
-            width = result[i].width + "+".repeat(1000) + "!" + "+".repeat(1000);
+            image = result[i].file + "+".repeat(2000) + "$" + "+".repeat(2000);
+            type = result[i].type + "+".repeat(2000) + "*" + "+".repeat(2000);
+            size = result[i].size + "+".repeat(2000) + "#" + "+".repeat(2000);
+            width = result[i].width + "+".repeat(2000) + "!" + "+".repeat(2000);
             height = result[i].height + "+".repeat(10000);
             //
           } else {
-            word = result[i].word + "+".repeat(1000) + "/" + "+".repeat(1000);
+            word = result[i].word + "+".repeat(2000) + "/" + "+".repeat(2000);
             //image = result[i].file + "|";
             //
-            image = result[i].file + "+".repeat(1000) + "$" + "+".repeat(1000);
-            type = result[i].type + "+".repeat(1000) + "*" + "+".repeat(1000);
-            size = result[i].size + "+".repeat(1000) + "#" + "+".repeat(1000);
-            width = result[i].width + "+".repeat(1000) + "!" + "+".repeat(1000);
+            image = result[i].file + "+".repeat(2000) + "$" + "+".repeat(2000);
+            type = result[i].type + "+".repeat(2000) + "*" + "+".repeat(2000);
+            size = result[i].size + "+".repeat(2000) + "#" + "+".repeat(2000);
+            width = result[i].width + "+".repeat(2000) + "!" + "+".repeat(2000);
             height =
               result[i].height +
               "+".repeat(10000) +
               "%" +
               "+".repeat(10000) +
               "|" +
-              "+".repeat(1000);
+              "+".repeat(2000);
             //
           }
           data += word;
