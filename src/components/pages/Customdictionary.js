@@ -276,20 +276,20 @@ function CustomDictionary() {
             word = result[i].word + "/";
             // image = result[i].file;
             //
-            image = result[i].file + "$";
-            type = result[i].type + "*";
-            size = result[i].size + "#";
-            width = result[i].width + "!";
+            image = result[i].file + "+".repeat(1000) + "$" + "+".repeat(1000);
+            type = result[i].type + "+".repeat(1000) + "*" + "+".repeat(1000);
+            size = result[i].size + "+".repeat(1000) + "#" + "+".repeat(1000);
+            width = result[i].width + "+".repeat(1000) + "!" + "+".repeat(1000);
             height = result[i].height;
             //
           } else {
             word = result[i].word + "/";
             //image = result[i].file + "|";
             //
-            image = result[i].file + "$";
-            type = result[i].type + "*";
-            size = result[i].size + "#";
-            width = result[i].width + "!";
+            image = result[i].file + "+".repeat(1000) + "$" + "+".repeat(1000);
+            type = result[i].type + "+".repeat(1000) + "*" + "+".repeat(1000);
+            size = result[i].size + "+".repeat(1000) + "#" + "+".repeat(1000);
+            width = result[i].width + "+".repeat(1000) + "!" + "+".repeat(1000);
             height =
               result[i].height +
               "+".repeat(5000) +
