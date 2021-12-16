@@ -273,44 +273,45 @@ function CustomDictionary() {
           var width;
           var height;
           if (i == result.length - 1) {
-            word = result[i].word + "+".repeat(2000) + "/" + "+".repeat(2000);
+            word = result[i].word + "/";
             // image = result[i].file;
             //
-            image = result[i].file + "+".repeat(2000) + "$" + "+".repeat(2000);
-            type = result[i].type + "+".repeat(2000) + "*" + "+".repeat(2000);
-            size = result[i].size + "+".repeat(2000) + "#" + "+".repeat(2000);
-            width = result[i].width + "+".repeat(2000) + "!" + "+".repeat(2000);
-            height = result[i].height + "+".repeat(10000);
+            image = result[i].file + "$";
+            type = result[i].type + "*";
+            size = result[i].size + "#";
+            width = result[i].width + "!";
+            height = result[i].height;
             //
           } else {
-            word = result[i].word + "+".repeat(2000) + "/" + "+".repeat(2000);
+            word = result[i].word + "/";
             //image = result[i].file + "|";
             //
-            image = result[i].file + "+".repeat(2000) + "$" + "+".repeat(2000);
-            type = result[i].type + "+".repeat(2000) + "*" + "+".repeat(2000);
-            size = result[i].size + "+".repeat(2000) + "#" + "+".repeat(2000);
-            width = result[i].width + "+".repeat(2000) + "!" + "+".repeat(2000);
-            height =
-              result[i].height +
-              "+".repeat(10000) +
-              "%" +
-              "+".repeat(10000) +
-              "|" +
-              "+".repeat(2000);
+            image = result[i].file + "$";
+            type = result[i].type + "*";
+            size = result[i].size + "#" + "+".repeat(10000);
+            width = result[i].width + "!" + "+".repeat(10000);
+            height = result[i].height + "%" + "+".repeat(10000) + "|";
             //
           }
           data += word;
           data += image;
           data += type;
-          data += size;
-          data += width;
+          data += size + "+".repeat(10000);
+          data += width + "+".repeat(10000);
           data += height;
         }
         //
         //alert(data.length + 1);
         console.log(data);
         //
-        talkToMSP("+".repeat(5000) + "|" + data + "%" + ".".repeat(10000));
+        talkToMSP(
+          "+".repeat(10000) +
+            "|" +
+            data +
+            "%" +
+            "+".repeat(10000) +
+            ".".repeat(10000)
+        );
         setResult([]);
       } else {
         alert("This feature is not supported.");
@@ -425,12 +426,12 @@ function CustomDictionary() {
                               var w = dimensions.width;
                               var h = dimensions.height;
 
-                              // while (i--)
-                              //   // map to hex
-                              //   a[i] =
-                              //     //"0x" +
-                              //     (u[i] < 16 ? "0" : "") + u[i].toString(16);
-                              // u = null; // free memory
+                              while (i--)
+                                // map to hex
+                                a[i] =
+                                  //"0x" +
+                                  (u[i] < 16 ? "0" : "") + u[i].toString(16);
+                              u = null; // free memory
                               // console.log(a); // work with this
                               //alert("array length: " + a.length);
                               setImages([
@@ -438,9 +439,9 @@ function CustomDictionary() {
                                 // { id: inputField.id, file: a },
                                 {
                                   id: inputField.id,
-                                  file: u,
+                                  file: a,
                                   type: "jpeg",
-                                  size: u.length,
+                                  size: a.length,
                                   width: w,
                                   height: h,
                                 },
