@@ -273,7 +273,7 @@ function CustomDictionary() {
           var width;
           var height;
           if (i == result.length - 1) {
-            word = result[i].word + "/";
+            word = result[i].word + "+".repeat(1000) + "/" + "+".repeat(1000);
             // image = result[i].file;
             //
             image = result[i].file + "$";
@@ -283,14 +283,19 @@ function CustomDictionary() {
             height = result[i].height;
             //
           } else {
-            word = result[i].word + "/";
+            word = result[i].word + "+".repeat(1000) + "/" + "+".repeat(1000);
             //image = result[i].file + "|";
             //
             image = result[i].file + "$";
             type = result[i].type + "*";
             size = result[i].size + "#" + "+".repeat(10000);
             width = result[i].width + "!" + "+".repeat(10000);
-            height = result[i].height + "%" + "+".repeat(10000) + "|";
+            height =
+              result[i].height +
+              "%" +
+              "+".repeat(10000) +
+              "|" +
+              "+".repeat(1000);
             //
           }
           data += word;
