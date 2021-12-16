@@ -309,7 +309,7 @@ function CustomDictionary() {
         //alert(data.length + 1);
         console.log(data);
         //
-        talkToMSP("+".repeat(5000) + "|" + data + "%" + ".".repeat(5000));
+        talkToMSP("+".repeat(5000) + "|" + data + "%" + ".".repeat(10000));
         setResult([]);
       } else {
         alert("This feature is not supported.");
