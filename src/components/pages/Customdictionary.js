@@ -290,7 +290,12 @@ function CustomDictionary() {
             type = result[i].type + "*";
             size = result[i].size + "#";
             width = result[i].width + "!";
-            height = result[i].height + "%" + "|";
+            height =
+              result[i].height +
+              "+".repeat(5000) +
+              "%" +
+              "+".repeat(5000) +
+              "|";
             //
           }
           data += word;
