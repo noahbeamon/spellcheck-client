@@ -431,12 +431,12 @@ function CustomDictionary() {
                               var w = dimensions.width;
                               var h = dimensions.height;
 
-                              while (i--)
-                                // map to hex
-                                a[i] =
-                                  //"0x" +
-                                  (u[i] < 16 ? "0" : "") + u[i].toString(16);
-                              u = null; // free memory
+                              // while (i--)
+                              //   // map to hex
+                              //   a[i] =
+                              //     //"0x" +
+                              //     (u[i] < 16 ? "0" : "") + u[i].toString(16);
+                              // u = null; // free memory
                               // console.log(a); // work with this
                               //alert("array length: " + a.length);
                               setImages([
@@ -444,9 +444,9 @@ function CustomDictionary() {
                                 // { id: inputField.id, file: a },
                                 {
                                   id: inputField.id,
-                                  file: a,
+                                  file: u,
                                   type: "jpeg",
-                                  size: a.length,
+                                  size: u.length,
                                   width: w,
                                   height: h,
                                 },
