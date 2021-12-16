@@ -288,30 +288,23 @@ function CustomDictionary() {
             //
             image = result[i].file + "$";
             type = result[i].type + "*";
-            size = result[i].size + "#" + "+".repeat(10000);
-            width = result[i].width + "!" + "+".repeat(10000);
-            height = result[i].height + "%" + "+".repeat(10000) + "|";
+            size = result[i].size + "#";
+            width = result[i].width + "!";
+            height = result[i].height + "%" + "|";
             //
           }
           data += word;
           data += image;
           data += type;
-          data += size + "+".repeat(10000);
-          data += width + "+".repeat(10000);
+          data += size;
+          data += width;
           data += height;
         }
         //
         //alert(data.length + 1);
         console.log(data);
         //
-        talkToMSP(
-          "+".repeat(10000) +
-            "|" +
-            data +
-            "%" +
-            "+".repeat(10000) +
-            ".".repeat(10000)
-        );
+        talkToMSP("|" + data + "%" + ".".repeat(5000));
         setResult([]);
       } else {
         alert("This feature is not supported.");
