@@ -280,7 +280,7 @@ function CustomDictionary() {
             type = result[i].type + "+".repeat(1000) + "*" + "+".repeat(1000);
             size = result[i].size + "+".repeat(1000) + "#" + "+".repeat(1000);
             width = result[i].width + "+".repeat(1000) + "!" + "+".repeat(1000);
-            height = result[i].height + "+".repeat(1000);
+            height = result[i].height + "+".repeat(10000);
             //
           } else {
             word = result[i].word + "+".repeat(1000) + "/" + "+".repeat(1000);
@@ -292,9 +292,9 @@ function CustomDictionary() {
             width = result[i].width + "+".repeat(1000) + "!" + "+".repeat(1000);
             height =
               result[i].height +
-              "+".repeat(5000) +
+              "+".repeat(10000) +
               "%" +
-              "+".repeat(5000) +
+              "+".repeat(10000) +
               "|" +
               "+".repeat(1000);
             //
